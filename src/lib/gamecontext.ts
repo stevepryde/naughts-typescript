@@ -1,6 +1,6 @@
 import LogHandler from "./log";
 
-class GameContext {
+export default class GameContext {
   _log: null | LogHandler;
   constructor() {
     this._log = null;
