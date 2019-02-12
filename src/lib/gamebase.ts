@@ -158,7 +158,7 @@ export default class GameBase extends GameContext {
       }, got ${inputs.length}`
     );
 
-    const outputStates = [];
+    const outputStates: GameState[] = [];
     if (bot.magic) {
       const outputs = bot.processMagic(inputs, availableMoves);
 

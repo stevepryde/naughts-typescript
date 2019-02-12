@@ -65,7 +65,7 @@ export default class LogHandler {
       text = [text];
     }
 
-    let lines = [];
+    let lines: string[] = [];
     for (let line of text) {
       line = (line as any).trimEnd(); // string.prototype.trimEnd() is implemented in V8.
       let sublines = line.split("\n");

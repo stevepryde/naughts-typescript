@@ -38,6 +38,7 @@ export default class GameResult {
       default:
         assert.fail("Invalid result!");
     }
+    return "Invalid Result";
   }
 
   /**

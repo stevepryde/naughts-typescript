@@ -40,7 +40,7 @@ export default class GamePlayer extends GameContext {
    */
   public get score(): number {
     assert.ok(this._score != null, "Bot score accessed before game end!");
-    return this._score;
+    return this._score as number;
   }
 
   /**
