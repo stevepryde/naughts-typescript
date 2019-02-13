@@ -1,5 +1,7 @@
 /* Misc exception classes. */
 
+export class CancelledError extends Error {}
+
 export class GameError extends Error {}
 
 export class GameCreateError extends GameError {}

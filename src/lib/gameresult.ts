@@ -55,10 +55,7 @@ export default class GameResult {
    * @param identity Player identity
    */
   public getScore(identity: string): number {
-    assert.ok(
-      this.scores.hasOwnProperty(identity),
-      "Score accessed before it was set!"
-    );
+    assert.ok(this.scores.hasOwnProperty(identity), "Score accessed before it was set!");
     return this.scores[identity];
   }
 
@@ -71,15 +68,10 @@ export default class GameResult {
     }
 
     // Otherwise infer it from score.
-    assert.ok(
-      Object.keys(this.scores).length > 0,
-      "BUG: No winner - no scores set yet!"
-    );
+    assert.ok(Object.keys(this.scores).length > 0, "BUG: No winner - no scores set yet!");
 
     // Return the identity (key) corresponding to the highest score (value).
-    return Object.keys(this.scores).reduce((a, b) =>
-      this.scores[a] > this.scores[b] ? a : b
-    );
+    return Object.keys(this.scores).reduce((a, b) => (this.scores[a] > this.scores[b] ? a : b));
   }
 
   /**

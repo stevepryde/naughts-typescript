@@ -1,6 +1,6 @@
 import assert from "assert";
 import GameContext from "./gamecontext";
-import GameInfo from "./gamebase";
+import { GameInfo } from "./gamebase";
 
 export interface PlayerState {
   [x: string]: any;

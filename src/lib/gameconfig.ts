@@ -7,7 +7,7 @@ const LOGBASEPATH = "logs";
 const DATABASEPATH = "data";
 const SUPPORTED_GAMES = ["naughts", "connect4"];
 
-function quitGame(message: string = "Exiting..."): void {
+export function quitGame(message: string = "Exiting..."): void {
   console.log(message);
   process.exit(1);
 }
@@ -23,21 +23,19 @@ function checkInt1Plus(value: string): number {
 function checkInt0Plus(value: string): number {
   let ivalue = parseInt(value) || 0;
   if (ivalue < 0) {
-    throw argparse.ArgumentTypeError(
-      "Expected an int >= zero, but got " + ivalue
-    );
+    throw argparse.ArgumentTypeError("Expected an int >= zero, but got " + ivalue);
   }
   return ivalue;
 }
 
-interface BotConfig {
+export interface BotConfig {
   botNames: string[];
   botId: string;
   game: string;
   botdb: boolean;
 }
 
-interface BatchConfig {
+export interface BatchConfig {
   batchSize: number;
   botConfig: BotConfig;
   game: string;
@@ -122,8 +120,7 @@ export class GameConfig {
     });
     parser.addArgument("--genetic", {
       type: checkInt1Plus,
-      help:
-        "Genetic mode. Specify number of generations to run (Requires --batch or --magic)"
+      help: "Genetic mode. Specify number of generations to run (Requires --batch or --magic)"
     });
     parser.addArgument("--samples", {
       type: checkInt1Plus,
@@ -135,8 +132,7 @@ export class GameConfig {
     });
     parser.addArgument("--wild", {
       type: checkInt1Plus,
-      help:
-        "Number of 'wild' (fresh, randomly generated) samples to include in each generation"
+      help: "Number of 'wild' (fresh, randomly generated) samples to include in each generation"
     });
     parser.addArgument("--botdb", {
       action: "storeTrue",
@@ -169,7 +165,7 @@ export class GameConfig {
 
     if (!args.batch && !this.magic) {
       for (let req of requiresBatch) {
-        if (args.hasOwnProperty(req)) {
+        if (args.hasOwnProperty(req) && args[req]) {
           parser.error(`Option --${req} requires --batch`);
         }
       }
@@ -177,7 +173,7 @@ export class GameConfig {
 
     if (!args.genetic) {
       for (let req of requiresGenetic) {
-        if (args.hasOwnProperty(req)) {
+        if (args.hasOwnProperty(req) && args[req]) {
           parser.error(`Option --${req} requires --genetic`);
         }
       }

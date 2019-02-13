@@ -17,8 +17,8 @@ export interface GameState {
   [x: string]: any;
 }
 
-export default class GameBase extends GameContext {
-  protected readonly identities: string[] = ["1", "2"];
+export class GameBase extends GameContext {
+  public readonly identities: string[] = ["1", "2"];
   protected readonly inputCount: number = 0;
   protected readonly outputCount: number = 0;
 
@@ -74,9 +74,7 @@ export default class GameBase extends GameContext {
     assert.equal(
       this.identityCount,
       this.bots.length,
-      `Unexpected number of bots provided. Expected ${
-        this.identityCount
-      }, got ${this.bots.length}`
+      `Unexpected number of bots provided. Expected ${this.identityCount}, got ${this.bots.length}`
     );
   }
 
@@ -146,16 +144,16 @@ export default class GameBase extends GameContext {
   /**
    * Process one game turn.
    */
-  private doTurn(): GameState[] {
+  public doTurn(): GameState[] {
     let bot = this.bots[this.currentBotIndex];
     this.numTurns[this.currentIdentity]++;
     let [inputs, availableMoves] = this.getInputs(this.currentIdentity);
     assert.equal(
       inputs.length,
       this.inputCount,
-      `Incorrect number of inputs returned from getInputs(): Expected ${
-        this.inputCount
-      }, got ${inputs.length}`
+      `Incorrect number of inputs returned from getInputs(): Expected ${this.inputCount}, got ${
+        inputs.length
+      }`
     );
 
     const outputStates: GameState[] = [];
@@ -192,7 +190,7 @@ export default class GameBase extends GameContext {
   /**
    * Process and return the game result.
    */
-  private processResult(): GameResult {
+  public processResult(): GameResult {
     const result = this.getResult();
     this.bots.forEach((bot, i) => {
       bot.score = result.getScore(this.identities[i]);
@@ -207,7 +205,7 @@ export default class GameBase extends GameContext {
   /**
    * Set the initial game state.
    */
-  protected setInitialState(): void {}
+  public setInitialState(): void {}
 
   /**
    * Apply state to this game object.
@@ -240,7 +238,7 @@ export default class GameBase extends GameContext {
   /**
    * Return true if the game has ended, otherwise false.
    */
-  protected isEnded(): boolean {
+  public isEnded(): boolean {
     return true;
   }
 

@@ -26,10 +26,7 @@ export default class LogHandler {
     if (!this._logger) {
       this._logger = winston.createLogger({
         levels: winston.config.syslog.levels,
-        format: winston.format.combine(
-          winston.format.colorize(),
-          winston.format.simple()
-        )
+        format: winston.format.combine(winston.format.colorize(), winston.format.simple())
       });
     }
 
@@ -44,9 +41,7 @@ export default class LogHandler {
   logToFile(filename: string): void {
     this.fileLogging = true;
     this.filename = filename;
-    this.logger.add(
-      new winston.transports.File({ filename: filename, level: "debug" })
-    );
+    this.logger.add(new winston.transports.File({ filename: filename, level: "debug" }));
   }
 
   /**
