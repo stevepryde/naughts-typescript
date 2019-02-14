@@ -6,7 +6,7 @@ export interface PlayerState {
   [x: string]: any;
 }
 
-export default class GamePlayer extends GameContext {
+export class GamePlayer extends GameContext {
   identity: string;
   _score: number | null;
   genetic: boolean;

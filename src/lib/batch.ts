@@ -5,7 +5,7 @@ import { GameState } from "./gamebase";
 import { BatchConfig, BotConfig } from "./gameconfig";
 import GameContext from "./gamecontext";
 import GameFactory from "./gamefactory";
-import GamePlayer from "./gameplayer";
+import { GamePlayer } from "./gameplayer";
 import GameResult from "./gameresult";
 
 export default class Batch extends GameContext {

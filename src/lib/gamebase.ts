@@ -4,7 +4,7 @@
 import assert from "assert";
 
 import GameContext from "./gamecontext";
-import GamePlayer from "./gameplayer";
+import { GamePlayer } from "./gameplayer";
 import GameResult from "./gameresult";
 import { GameCreateError } from "./errors";
 

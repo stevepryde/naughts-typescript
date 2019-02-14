@@ -1,8 +1,10 @@
 import GameContext from "./gamecontext";
 import { GameBase } from "./gamebase";
 
+import NaughtsGame from "../games/naughts/singlegame";
+
 const GameClasses = {
-  naughts: require("../games/naughts/singlegame")
+  naughts: NaughtsGame
   // connect4: require("../games/connect4/singlegame")
 };
 
@@ -15,8 +17,7 @@ export default class GameFactory {
 
   public getGameObj(game: string): GameBase {
     let class_ = this.getGameClass(game);
-    let obj = Object.create(class_) as GameBase;
-    obj.constructor.apply(obj);
+    let obj = new class_();
     return obj;
   }
 }

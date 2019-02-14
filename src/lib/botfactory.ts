@@ -1,15 +1,21 @@
 import GameContext from "./gamecontext";
 import { BotConfig } from "./gameconfig";
-import GamePlayer from "./gameplayer";
+import { GamePlayer } from "./gameplayer";
 import { BotCreateError } from "./errors";
 import GameFactory from "./gamefactory";
 
+import RandomBot from "../bots/randombot/randombot";
+
 const GenericBots = {
-  randombot: require("../bots/randombot/randombot")
+  randombot: RandomBot
 };
 
+import Human from "../games/naughts/bots/human/human";
+
 const GameSpecificBots = {
-  naughts: {},
+  naughts: {
+    human: Human
+  },
   connect4: {}
 };
 
@@ -19,32 +25,29 @@ export default class BotFactory {
   /**
    * Get the class for the specified bot.
    * NOTE: ES6 uses static imports, meaning it cannot load a module dynamically
-   * based on filename. Module imports must be declared above at compile time.
+   * based on filename. Module imports must be imported above at compile time.
    */
   private getBotClass(moduleName: string) {
     let parts = moduleName.split(".");
     let game = "";
     let moduleBasename = moduleName;
-    let class_ = null;
     if (parts.length > 1) {
       // Game-specific bot.
       game = parts[0];
       moduleBasename = parts[1];
-      class_ = GameSpecificBots[moduleBasename];
+      return GameSpecificBots[game][moduleBasename];
     } else {
       // Generic bot.
-      class_ = GenericBots[moduleName];
+      return GenericBots[moduleName];
     }
-    return class_;
   }
 
-  public createBot(moduleName: string): GamePlayer {
+  public createBot(moduleName: string) {
     let class_ = this.getBotClass(moduleName);
     if (class_ == null) {
       throw new BotCreateError(`Error creating bot '${moduleName}'`);
     }
-    let bot = Object.create(class_) as GamePlayer;
-    bot.constructor.apply(bot);
+    let bot = new class_();
     bot.name = moduleName;
     return bot;
   }

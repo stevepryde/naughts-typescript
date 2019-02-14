@@ -21,6 +21,7 @@
   "dependencies": {
     "@types/node": "^10.12.24",
     "argparse": "^1.0.10",
+    "readline-sync": "^1.4.9",
     "typescript": "^3.3.3",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"
