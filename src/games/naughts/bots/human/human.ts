@@ -18,7 +18,12 @@ export default class Human extends NaughtsBot {
 
     let move = -1;
     while (!moves.includes(move)) {
-      move = parseInt(readlineSync.question(info));
+      let answer = readlineSync.question(info);
+      if (answer == null || answer === "") {
+        console.log("Quitting...");
+        process.exit(1);
+      }
+      move = parseInt(answer);
       if (move == null) {
         move = -1;
       }
