@@ -7,6 +7,7 @@ import GameContext from "./gamecontext";
 import GameFactory from "./gamefactory";
 import { GamePlayer } from "./gameplayer";
 import GameResult from "./gameresult";
+import { ProcessedBatchInput } from "./runners/genetic/processor";
 
 export default class Batch extends GameContext {
   totalScore: { [x: string]: number };
@@ -14,6 +15,7 @@ export default class Batch extends GameContext {
   numDraws: number;
   identities: string[];
   numGamesPlayed: number;
+  info: ProcessedBatchInput;
   _gameFactory: GameFactory | null = null;
   _botFactory: BotFactory | null = null;
 
@@ -25,6 +27,7 @@ export default class Batch extends GameContext {
     this.numDraws = 0;
     this.identities = [];
     this.numGamesPlayed = 0;
+    this.info = { generation: 0, sample: 0, index: 0, geneticScore: 0.0 };
   }
 
   get gameFactory(): GameFactory {
@@ -41,7 +44,7 @@ export default class Batch extends GameContext {
     return this._botFactory;
   }
 
-  private runBatch(): GameResult {
+  public runBatch(): GameResult {
     this.startBatch();
     if (this.batchConfig.magic) {
       this.runMagicBatch();
