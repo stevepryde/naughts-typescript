@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/stevepryde/naughts#readme",
   "dependencies": {
+    "@types/amqplib": "^0.5.10",
     "@types/node": "^10.12.24",
+    "amqplib": "^0.5.3",
     "argparse": "^1.0.10",
     "readline-sync": "^1.4.9",
     "typescript": "^3.3.3",

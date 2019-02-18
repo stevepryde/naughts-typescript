@@ -1,8 +1,10 @@
 import assert from "assert";
 import GameContext from "./gamecontext";
 import { GameInfo } from "./gamebase";
+import { stat } from "fs";
 
 export interface PlayerState {
+  name: string;
   [x: string]: any;
 }
 
@@ -21,7 +23,7 @@ export class GamePlayer extends GameContext {
     this.name = "";
     this._score = null;
     this.genetic = false;
-    this.data = {};
+    this.data = { name: this.name };
 
     // The magic flag is true for bots that use the magic batch runner (e.g. omnibot).
     this.magic = false;
@@ -86,7 +88,8 @@ export class GamePlayer extends GameContext {
    * Get player state.
    */
   public toDict(): PlayerState {
-    let state = Object.assign({ name: this.name }, this.data);
+    let state = Object.assign({}, this.data);
+    state.name = this.name;
     return Object.assign(state, this.getState());
   }
 
@@ -103,7 +106,7 @@ export class GamePlayer extends GameContext {
    * Get player state. Override as needed.
    */
   public getState(): PlayerState {
-    return {};
+    return { name: "" };
   }
 
   /**
