@@ -82,7 +82,7 @@ export default class GeneticRunner extends GameRunnerBase {
         let win = sample.score > scoreThreshold ? "*" : "";
         this.log.debug(
           `Completed batch for sample ${batchResult.sample.toFixed(
-            5
+            0
           )} :: score = ${sample.score.toFixed(3)} ${win}`
         );
       }
@@ -128,7 +128,7 @@ export default class GeneticRunner extends GameRunnerBase {
     }
 
     let endTime = Date.now();
-    let duration = endTime - startTime;
+    let duration = (endTime - startTime) / 1000.0;
     this.log.info(`Completed in ${duration.toFixed(2)} seconds`);
   }
 

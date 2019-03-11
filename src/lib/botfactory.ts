@@ -5,9 +5,11 @@ import { BotCreateError } from "./errors";
 import GameFactory from "./gamefactory";
 
 import RandomBot from "../bots/randombot/randombot";
+import GenBot3 from "../bots/genbot3/genbot3";
 
 const GenericBots = {
-  randombot: RandomBot
+  randombot: RandomBot,
+  genbot3: GenBot3
 };
 
 import Human from "../games/naughts/bots/human/human";
