@@ -67,6 +67,7 @@ export default class GeneticRunner extends GameRunnerBase {
       } else {
         newSamples = this.generateOriginalSamples(gen, this.config.numSamples);
       }
+      console.log;
 
       if (this.config.wildSamples > 0) {
         newSamples = newSamples.concat(this.generateOriginalSamples(gen, this.config.wildSamples));
@@ -80,21 +81,21 @@ export default class GeneticRunner extends GameRunnerBase {
         geneticPool.push(sample);
 
         let win = sample.score > scoreThreshold ? "*" : "";
+        let sampleScore = sample.score.toFixed(3);
         this.log.debug(
-          `Completed batch for sample ${batchResult.sample.toFixed(
-            0
-          )} :: score = ${sample.score.toFixed(3)} ${win}`
+          `Completed batch for sample ${batchResult.sample} :: score = ${sampleScore} ${win}`
         );
       }
 
       let filteredPool = geneticPool.filter(bot => {
-        bot.score > scoreThreshold;
+        return bot.score > scoreThreshold;
       });
-      if (filteredPool.length == 0) {
+      if (filteredPool.length === 0) {
         this.log.info(`Generation ${gen} :: No improvement - will generate more samples`);
-        for (let [botId, score] of lastScores) {
-          this.log.info(`SCORE ${score} :: ${botId}`);
-        }
+        this.log.info(`Current best score: ${scoreThreshold}`);
+        // for (let [score] of lastScores) {
+        //   this.log.info(`SCORE ${score}`);
+        // }
         continue;
       }
 
@@ -142,7 +143,11 @@ export default class GeneticRunner extends GameRunnerBase {
         let botObj = this.botFactory.createBot(this.geneticName);
         let sampleData = sample.toDict();
         botObj.fromDict(sampleData);
-        assert.equal(botObj.toDict(), sampleData, "New sample not identical to old sample!");
+        assert.equal(
+          JSON.stringify(botObj.toDict()),
+          JSON.stringify(sampleData),
+          "New sample not identical to old sample!"
+        );
         botObj.mutate();
         if (botObj.toDict() === sampleData) {
           this.log.warning("Sample did not mutate");

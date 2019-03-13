@@ -13,7 +13,7 @@ console.log("Started");
 
 try {
   process.on("SIGINT", () => {
-    throw new CancelledError("Cancelled.");
+    quitGame("Cancelled.");
   });
 
   let runner: GameRunnerBase | null = null;

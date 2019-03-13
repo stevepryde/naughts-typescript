@@ -78,7 +78,9 @@ export default class LogHandler {
     }
 
     for (let line of this.getLines(text)) {
-      this.logger.log(loglevel, line);
+      //this.logger.log(loglevel, line);
+      // TODO: Need a new logger. Winston hangs under heavy load :(
+      console.log(`${loglevel} :: ${line}`);
     }
   }
 

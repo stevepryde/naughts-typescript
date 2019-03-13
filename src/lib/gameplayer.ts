@@ -99,6 +99,7 @@ export class GamePlayer extends GameContext {
    */
   public fromDict(state: PlayerState): void {
     this.data = Object.assign({}, state);
+    this.name = state.name;
     this.setState(this.data);
   }
 
