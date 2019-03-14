@@ -125,7 +125,7 @@ export class GameBase extends GameContext {
    */
   public toDict(): GameState {
     let state = {
-      numTurms: this.numTurns,
+      numTurns: this.numTurns,
       currentBotIndex: this.currentBotIndex
     };
     return Object.assign(state, this.getState());

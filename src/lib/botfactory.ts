@@ -1,3 +1,4 @@
+import assert from "assert";
 import GameContext from "./gamecontext";
 import { BotConfig } from "./gameconfig";
 import { GamePlayer } from "./gameplayer";
@@ -22,7 +23,7 @@ const GameSpecificBots = {
 };
 
 export default class BotFactory {
-  constructor(public context: GameContext, public botConfig: BotConfig) {}
+  constructor(public context: GameContext, public botConfig: BotConfig | null) {}
 
   /**
    * Get the class for the specified bot.
@@ -55,6 +56,9 @@ export default class BotFactory {
   }
 
   public createBots(): GamePlayer[] {
+    if (this.botConfig == null) {
+      throw new BotCreateError("Cannot create bots without botConfig!");
+    }
     let gameObj = new GameFactory(this.context).getGameObj(this.botConfig.game);
 
     let bots: GamePlayer[] = [];
@@ -91,6 +95,9 @@ export default class BotFactory {
   }
 
   public cloneBots(existingBots: GamePlayer[]): GamePlayer[] {
+    if (this.botConfig == null) {
+      throw new BotCreateError("Cannot clone bots without botConfig!");
+    }
     let bots: GamePlayer[] = [];
     this.botConfig.botNames.forEach((botName, i) => {
       let botObj = this.createBot(botName);

@@ -82,10 +82,12 @@ export default class SingleGame extends GameBase {
     switch (outcome) {
       case 1:
         result.setWin();
+        result.winner = this.identities[0];
         outcomes = [1, -1];
         break;
       case 2:
         result.setWin();
+        result.winner = this.identities[1];
         outcomes = [-1, 1];
         break;
       case 3:

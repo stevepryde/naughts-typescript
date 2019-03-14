@@ -140,6 +140,10 @@ export class GamePlayer extends GameContext {
    * @param availableMoves  Array of available moves.
    */
   public process(inputs: number[], availableMoves: number[]): number {
+    if (availableMoves.length > 0) {
+      return availableMoves[0];
+    }
+
     return 0.0;
   }
 
