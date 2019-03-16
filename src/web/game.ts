@@ -27,7 +27,7 @@ router.post("/start", function(req, res) {
     service.startGame();
     let result = service.getGameResult();
     let state = service.getGameState();
-    res.status(200).json({ result: result, state: JSON.stringify(state) });
+    res.status(200).json({ result: result || { status: 0 }, state: JSON.stringify(state) });
   } catch (err) {
     console.error(err);
     res.status(500).json({ code: "INTERNAL_SERVER_ERROR" });
@@ -61,10 +61,10 @@ router.post("/process", function(req, res) {
     service.doMoves(JSON.parse(req.body.gamestate), req.body.move);
     let result = service.getGameResult();
     let state = service.getGameState();
-    res.status(200).json({ result: result, state: JSON.stringify(state) });
+    res.status(200).json({ result: result || { status: 0 }, state: JSON.stringify(state) });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ code: "INTERNAL_SERVER_ERROR" });
+    res.status(400).json({ code: "INVALID_MOVE" });
   }
 });
 

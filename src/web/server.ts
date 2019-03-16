@@ -2,10 +2,24 @@ import express = require("express");
 import bodyParser = require("body-parser");
 import winston = require("winston");
 import expressWinston = require("express-winston");
+import cors = require("cors");
 
 import gameRoutes from "./game";
 
 const app = express();
+
+const whitelist =
+  process.env.NODE_ENV === "production" ? ["https://stevepryde.com"] : ["http://localhost:3000"];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed"));
+    }
+  }
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -28,6 +42,6 @@ app.use(
 
 app.use("/game", gameRoutes);
 
-var server = app.listen(5000, function() {
+var server = app.listen(5009, function() {
   console.log("Server running on port:", server.address().port);
 });
