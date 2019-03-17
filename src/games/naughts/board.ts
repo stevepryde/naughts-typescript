@@ -66,19 +66,19 @@ export default class Board {
       } else if (val === "OOO") {
         return 2;
       }
+    }
 
-      let isDraw = true;
-      for (let pos = 0; pos < 9; pos++) {
-        let val = this.getAt(pos);
-        if (val !== "X" && val !== "O") {
-          isDraw = false;
-          break;
-        }
+    let isDraw = true;
+    for (let pos = 0; pos < 9; pos++) {
+      let val = this.getAt(pos);
+      if (val !== "X" && val !== "O") {
+        isDraw = false;
+        break;
       }
+    }
 
-      if (isDraw) {
-        return 3;
-      }
+    if (isDraw) {
+      return 3;
     }
 
     return 0;

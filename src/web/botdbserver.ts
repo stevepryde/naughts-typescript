@@ -5,23 +5,11 @@ import expressWinston = require("express-winston");
 import cors = require("cors");
 require("dotenv");
 
-import gameRoutes from "./game";
 import botdbRoutes from "./botdb";
 
 const app = express();
 
-const whitelist =
-  process.env.NODE_ENV === "production" ? ["https://ai.stevepryde.com"] : ["http://localhost:3000"];
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed"));
-    }
-  }
-};
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(
@@ -37,8 +25,8 @@ app.use(
   })
 );
 
-app.use("/game", gameRoutes);
+app.use("/botdb", botdbRoutes);
 
-var server = app.listen(5009, function() {
+var server = app.listen(5008, function() {
   console.log("Server running on port:", server.address().port);
 });

@@ -5,7 +5,7 @@ import { supportedBots, supportedGames, GameService } from "./gameService";
 
 const router = express.Router();
 
-router.post("/start", function(req, res) {
+router.post("/start", async function(req, res) {
   const schema = Joi.object().keys({
     game: Joi.string()
       .valid(supportedGames)
@@ -23,7 +23,7 @@ router.post("/start", function(req, res) {
 
   try {
     let service = new GameService(req.body.game);
-    service.loadBot(req.body.botname);
+    await service.loadBot(req.body.botname);
     service.startGame();
     let result = service.getGameResult();
     let state = service.getGameState();
@@ -34,7 +34,7 @@ router.post("/start", function(req, res) {
   }
 });
 
-router.post("/process", function(req, res) {
+router.post("/process", async function(req, res) {
   const schema = Joi.object().keys({
     game: Joi.string()
       .valid(supportedGames)
@@ -57,7 +57,7 @@ router.post("/process", function(req, res) {
 
   try {
     let service = new GameService(req.body.game);
-    service.loadBot(req.body.botname);
+    await service.loadBot(req.body.botname);
     service.doMoves(JSON.parse(req.body.gamestate), req.body.move);
     let result = service.getGameResult();
     let state = service.getGameState();

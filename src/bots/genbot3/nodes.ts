@@ -1,30 +1,30 @@
 import { NodeBase, NodeBase2 } from "./nodebase";
 
-export class NodeInput extends NodeBase {
+export class NODE_INPUT extends NodeBase {
   public setValue(value: number): void {
     this.output = value;
   }
 }
 
-export class NodeNot extends NodeBase {
+export class NODE_NOT extends NodeBase {
   public process(inputs: number[]): number {
     return !inputs[0] ? 1 : 0;
   }
 }
 
-export class NodeAnd extends NodeBase2 {
+export class NODE_AND extends NodeBase2 {
   public process(inputs: number[]): number {
     return inputs[0] && inputs[1] ? 1 : 0;
   }
 }
 
-export class NodeOr extends NodeBase2 {
+export class NODE_OR extends NodeBase2 {
   public process(inputs: number[]): number {
     return inputs[0] || inputs[1] ? 1 : 0;
   }
 }
 
-export class NodeXor extends NodeBase2 {
+export class NODE_XOR extends NodeBase2 {
   public process(inputs: number[]): number {
     if (inputs[0] && inputs[1]) {
       return 0;
@@ -34,19 +34,19 @@ export class NodeXor extends NodeBase2 {
   }
 }
 
-export class NodeNand extends NodeBase2 {
+export class NODE_NAND extends NodeBase2 {
   public process(inputs: number[]): number {
     return inputs[0] && inputs[1] ? 0 : 1;
   }
 }
 
-export class NodeNor extends NodeBase2 {
+export class NODE_NOR extends NodeBase2 {
   public process(inputs: number[]): number {
     return inputs[0] || inputs[1] ? 0 : 1;
   }
 }
 
-export class NodeXnor extends NodeBase2 {
+export class NODE_XNOR extends NodeBase2 {
   public process(inputs: number[]): number {
     if (inputs[0] && inputs[1]) {
       return 1;
@@ -60,7 +60,7 @@ export class NodeXnor extends NodeBase2 {
   }
 }
 
-export class NodeOutput extends NodeBase {
+export class NODE_OUTPUT extends NodeBase {
   constructor() {
     super();
     this.numInputs = 10; // Some number greater than 9.

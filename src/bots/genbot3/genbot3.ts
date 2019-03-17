@@ -3,15 +3,15 @@ import { GamePlayer, PlayerState } from "../../lib/gameplayer";
 import { GameInfo } from "../../lib/gamebase";
 import { NodeBase } from "./nodebase";
 import {
-  NodeInput,
-  NodeNot,
-  NodeAnd,
-  NodeOr,
-  NodeXor,
-  NodeNand,
-  NodeNor,
-  NodeXnor,
-  NodeOutput
+  NODE_INPUT,
+  NODE_NOT,
+  NODE_AND,
+  NODE_OR,
+  NODE_XOR,
+  NODE_NAND,
+  NODE_NOR,
+  NODE_XNOR,
+  NODE_OUTPUT
 } from "./nodes";
 
 function randomChoice<T>(items: T[]): T {
@@ -39,35 +39,35 @@ function randomSample<T>(items: T[], count: number): T[] {
 
 function getNodeInstance(className: string): NodeBase {
   switch (className) {
-    case "NodeInput":
-      return new NodeInput();
-    case "NodeNot":
-      return new NodeNot();
-    case "NodeAnd":
-      return new NodeAnd();
-    case "NodeOr":
-      return new NodeOr();
-    case "NodeXor":
-      return new NodeXor();
-    case "NodeNand":
-      return new NodeNand();
-    case "NodeNor":
-      return new NodeNor();
-    case "NodeXnor":
-      return new NodeXnor();
-    case "NodeOutput":
-      return new NodeOutput();
+    case "NODE_INPUT":
+      return new NODE_INPUT();
+    case "NODE_NOT":
+      return new NODE_NOT();
+    case "NODE_AND":
+      return new NODE_AND();
+    case "NODE_OR":
+      return new NODE_OR();
+    case "NODE_XOR":
+      return new NODE_XOR();
+    case "NODE_NAND":
+      return new NODE_NAND();
+    case "NODE_NOR":
+      return new NODE_NOR();
+    case "NODE_XNOR":
+      return new NODE_XNOR();
+    case "NODE_OUTPUT":
+      return new NODE_OUTPUT();
     default:
       break;
   }
 
   assert.fail("Unknown node class: " + className);
-  return new NodeNot();
+  return new NODE_NOT();
 }
 
 export default class GenBot3 extends GamePlayer {
   private nodes: NodeBase[] = [];
-  private outputNodes: NodeOutput[] = [];
+  private outputNodes: NODE_OUTPUT[] = [];
 
   constructor() {
     super();
@@ -106,7 +106,7 @@ export default class GenBot3 extends GamePlayer {
 
     // First create input nodes.
     for (let i = 0; i < gameInfo.inputCount; i++) {
-      this.nodes.push(new NodeInput());
+      this.nodes.push(new NODE_INPUT());
     }
 
     // Now generate random nodes.
@@ -125,7 +125,7 @@ export default class GenBot3 extends GamePlayer {
 
     // Now add output nodes.
     for (let i = 0; i < gameInfo.outputCount; i++) {
-      let node = new NodeOutput();
+      let node = new NODE_OUTPUT();
       node.inputNodes = randomSample(this.nodes, node.numInputs);
       this.outputNodes.push(node);
     }
@@ -142,7 +142,7 @@ export default class GenBot3 extends GamePlayer {
       let className = ingredientBlocks[0];
       let instance = getNodeInstance(className);
 
-      if (className !== "NodeInput") {
+      if (className !== "NODE_INPUT") {
         let inputsRequired = instance.numInputs;
         assert.ok(ingredientBlocks.length === inputsRequired + 1);
 
@@ -151,7 +151,7 @@ export default class GenBot3 extends GamePlayer {
         }
       }
 
-      if (className === "NodeOutput") {
+      if (className === "NODE_OUTPUT") {
         this.outputNodes.push(instance);
       } else {
         this.nodes.push(instance);
@@ -191,14 +191,22 @@ export default class GenBot3 extends GamePlayer {
   }
 
   getRandomNodeInstance(): NodeBase {
-    let nodePool = ["NodeNot", "NodeAnd", "NodeOr", "NodeXor", "NodeNand", "NodeNor", "NodeXnor"];
+    let nodePool = [
+      "NODE_NOT",
+      "NODE_AND",
+      "NODE_OR",
+      "NODE_XOR",
+      "NODE_NAND",
+      "NODE_NOR",
+      "NODE_XNOR"
+    ];
     let className = randomChoice(nodePool);
     return getNodeInstance(className);
   }
 
   public process(inputs: number[], availableMoves: number[]): number {
     inputs.forEach((inputValue, p) => {
-      (this.nodes[p] as NodeInput).setValue(inputValue);
+      (this.nodes[p] as NODE_INPUT).setValue(inputValue);
     });
 
     // Engage brain.

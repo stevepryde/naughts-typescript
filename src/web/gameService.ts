@@ -7,6 +7,7 @@ import GameContext from "../lib/gamecontext";
 import { BotConfig } from "../lib/gameconfig";
 import { GameServiceError } from "./errors";
 import GameResult from "../lib/gameresult";
+import db from "./db";
 
 export const supportedGames = ["naughts"];
 export const supportedBots = ["randombot", "genbot3"];
@@ -41,8 +42,17 @@ export class GameService {
     this.gameObj.doTurn(); // Bot gets first turn.
   }
 
-  loadBot(bot: string) {
+  async loadBot(bot: string) {
     this.bot = new BotFactory(this.context, this.botConfig).createBot(bot);
+    if (this.bot == null) {
+      throw new GameServiceError("Error creating bot");
+    }
+    let data = await db.getTop(bot, 1);
+    if (data.length > 0) {
+      this.bot.fromDict(data[0]);
+    } else {
+      this.bot.create(this.gameObj.getGameInfo());
+    }
   }
 
   doMoves(state: GameState, move: number) {
