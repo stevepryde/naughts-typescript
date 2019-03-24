@@ -1,0 +1,33 @@
+# Compose web services.
+version: "3"
+services:
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - $HOME/docker/volumes/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: naughts
+      POSTGRES_PASSWORD: naughts
+  gameservice:
+    build:
+      context: .
+      dockerfile: ./docker/gameservice.dockerfile
+    restart: unless-stopped
+    ports:
+      - "5009:5009"
+    environment:
+      NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
+      NAUGHTS_ENABLE_SSL: "false"
+  botdb:
+    build:
+      context: .
+      dockerfile: ./docker/botdb.dockerfile
+    restart: unless-stopped
+    ports:
+      - "5008:5008"
+    environment:
+      NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
+      NAUGHTS_ENABLE_SSL: "false"

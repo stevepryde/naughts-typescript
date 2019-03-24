@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-ts": "tsc",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "server": "node ./dist/web/server.js",
+    "botdb": "node ./dist/web/botdbserver.js"
   },
   "repository": {
     "type": "git",
@@ -32,6 +34,7 @@
     "joi": "^14.3.1",
     "pg": "^7.9.0",
     "readline-sync": "^1.4.9",
+    "ts-node": "^8.0.3",
     "typescript": "^3.3.3",
     "uuid": "^3.3.2",
     "winston": "^3.2.1"

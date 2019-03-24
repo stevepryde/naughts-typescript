@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import assert from "assert";
 
 import { PlayerState } from "../lib/gameplayer";
-const connectionString = "postgresql://naughts@localhost:5432/naughts";
+const connectionString = "postgresql://" + process.env.NAUGHTS_DB;
 
 class DB {
   private _pool = new Pool({
@@ -15,6 +15,14 @@ class DB {
   }
 
   async initDB(): Promise<void> {
+    try {
+      await this._pool.query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`);
+    } catch (err) {
+      // Ignore errors on this.
+      // PG is stupid - it will still fail if two processes call this concurrently,
+      // which is exactly what happens on startup.
+    }
+
     await this._pool.query(
       `CREATE TABLE IF NOT EXISTS recipe (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),

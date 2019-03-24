@@ -1,0 +1,14 @@
+# Compose web services.
+version: "3"
+services:
+  botdb:
+    build:
+      context: .
+      dockerfile: ./docker/botdb.dockerfile
+    restart: unless-stopped
+    ports:
+      - "5008:5008"
+    environment:
+      NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
+      NAUGHTS_ENABLE_SSL: "true"
+      NAUGHTS_CERT_PATH: "/home/steve/certs/stevepryde.com/"
