@@ -13,6 +13,9 @@ services:
       POSTGRES_PASSWORD: naughts
   gameservice:
     image: stevepryde/sp:naughts_gameservice
+    build:
+      context: .
+      dockerfile: ./docker/gameservice.dockerfile
     restart: unless-stopped
     ports:
       - "5009:5009"
@@ -22,3 +25,4 @@ services:
       NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
       NAUGHTS_ENABLE_SSL: "true"
       NAUGHTS_CERT_PATH: "/certs/stevepryde.com/"
+      NODE_ENV: "production"
