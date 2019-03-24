@@ -34,8 +34,8 @@ if (SSL_ENABLED) {
 
 const allowedOrigin = process.env.NODE_ENV === "production" ? "https://ai.stevepryde.com" : "*";
 const corsOptions = {
-  origin: allowedOrigin,
-  optionsSuccessStatus: 200
+  origin: allowedOrigin
+  // optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
