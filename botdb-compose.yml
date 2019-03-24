@@ -2,9 +2,7 @@
 version: "3"
 services:
   botdb:
-    build:
-      context: .
-      dockerfile: ./docker/botdb.dockerfile
+    image: stevepryde/sp:naughts_botdb
     restart: unless-stopped
     ports:
       - "5008:5008"

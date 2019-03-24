@@ -1,7 +1,7 @@
 # Compose web services.
 version: "3"
 services:
-  postgres:
+  postgres-dev:
     image: postgres
     restart: unless-stopped
     ports:
@@ -11,7 +11,7 @@ services:
     environment:
       POSTGRES_USER: naughts
       POSTGRES_PASSWORD: naughts
-  gameservice:
+  gameservice-dev:
     build:
       context: .
       dockerfile: ./docker/gameservice.dockerfile
@@ -21,7 +21,7 @@ services:
     environment:
       NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
       NAUGHTS_ENABLE_SSL: "false"
-  botdb:
+  botdb-dev:
     build:
       context: .
       dockerfile: ./docker/botdb.dockerfile

@@ -12,9 +12,7 @@ services:
       POSTGRES_USER: naughts
       POSTGRES_PASSWORD: naughts
   gameservice:
-    build:
-      context: .
-      dockerfile: ./docker/gameservice.dockerfile
+    image: stevepryde/sp:naughts_gameservice
     restart: unless-stopped
     ports:
       - "5009:5009"
