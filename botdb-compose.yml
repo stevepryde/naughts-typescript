@@ -9,9 +9,5 @@ services:
     restart: unless-stopped
     ports:
       - "5008:5008"
-    volumes:
-      - $HOME/certs:/certs
     environment:
       NAUGHTS_DB: "naughts:naughts@postgres:5432/naughts"
-      NAUGHTS_ENABLE_SSL: "true"
-      NAUGHTS_CERT_PATH: "/certs/stevepryde.com/"
