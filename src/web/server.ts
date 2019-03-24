@@ -32,16 +32,10 @@ if (SSL_ENABLED) {
   https = require("http").Server(app);
 }
 
-const whitelist =
-  process.env.NODE_ENV === "production" ? ["https://ai.stevepryde.com"] : ["http://localhost:3000"];
+const allowedOrigin = process.env.NODE_ENV === "production" ? "https://ai.stevepryde.com" : "*";
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed: " + origin));
-    }
-  }
+  origin: allowedOrigin,
+  optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
