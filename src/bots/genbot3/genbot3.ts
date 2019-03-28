@@ -1,6 +1,7 @@
 import assert from "assert";
 import { GamePlayer, PlayerState } from "../../lib/gameplayer";
 import { GameInfo } from "../../lib/gamebase";
+import { randomChoice, randomSample } from "../../lib/support/misc";
 import { NodeBase } from "./nodebase";
 import {
   NODE_INPUT,
@@ -13,29 +14,6 @@ import {
   NODE_XNOR,
   NODE_OUTPUT
 } from "./nodes";
-
-function randomChoice<T>(items: T[]): T {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-function randomSample<T>(items: T[], count: number): T[] {
-  if (count >= items.length) {
-    return items;
-  }
-
-  let indexes: number[] = [];
-  for (let i = 0; i < items.length; i++) {
-    indexes.push(i);
-  }
-
-  let values: T[] = [];
-  for (let i = 0; i < count; i++) {
-    let index = indexes.splice(Math.floor(Math.random() * indexes.length), 1)[0];
-    values.push(items[index]);
-  }
-
-  return values;
-}
 
 function getNodeInstance(className: string): NodeBase {
   switch (className) {

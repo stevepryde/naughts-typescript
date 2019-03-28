@@ -14,10 +14,12 @@ const GenericBots = {
 };
 
 import Human from "../games/naughts/bots/human/human";
+import MinimaxBot from "../games/naughts/bots/minimaxbot/minimaxbot";
 
 const GameSpecificBots = {
   naughts: {
-    human: Human
+    human: Human,
+    minimaxbot: MinimaxBot
   },
   connect4: {}
 };
