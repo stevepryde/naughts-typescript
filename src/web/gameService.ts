@@ -10,7 +10,7 @@ import GameResult from "../lib/gameresult";
 import db from "./db";
 
 export const supportedGames = ["naughts"];
-export const supportedBots = ["randombot", "genbot3"];
+export const supportedBots = ["randombot", "genbot3", "naughts.minimaxbot"];
 
 export class GameService {
   private context: GameContext;

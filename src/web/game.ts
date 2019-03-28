@@ -17,6 +17,7 @@ router.post("/start", async function(req, res) {
 
   const result = Joi.validate(req.body, schema);
   if (result.error !== null) {
+    console.error(result.error);
     res.status(400).json({ code: "INVALID_PARAMS" });
     return;
   }
