@@ -11,11 +11,14 @@ let basePath = __dirname;
 let config = new GameConfig(basePath);
 console.log("Started");
 
-try {
-  process.on("SIGINT", () => {
-    quitGame("Cancelled.");
-  });
+process.on("SIGINT", () => {
+  // TODO: this is not called because almost nothing is async so the event
+  // never gets processed. For this to work the whole chain needs to be
+  // converted to async.
+  quitGame("Cancelled.");
+});
 
+try {
   let runner: GameRunnerBase | null = null;
   if (config.geneticMode) {
     console.log("Using GENETIC game runner");
@@ -30,7 +33,11 @@ try {
   if (runner == null) {
     console.log("Invalid game runner");
   } else {
+    let startTime = new Date().getTime();
     runner.run();
+    let endTime = new Date().getTime();
+    let elapsed = (endTime - startTime) / 1000.0;
+    runner.log.info(`Completed in ${elapsed.toFixed(3)} seconds.`);
   }
 } catch (err) {
   switch (err.constructor) {
