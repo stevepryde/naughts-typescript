@@ -123,9 +123,13 @@ export default class Batch extends GameContext {
     let startGameObj = this.gameFactory.getGameObj(this.batchConfig.game);
     startGameObj.setInitialState();
     let bots = this.botFactory.cloneBots(this.bots);
+    let otherIndex = bots[0].magic ? 1 : 0;
 
     startGameObj.start(bots);
-    let startGameState = startGameObj.toDict();
+    let startGameState = {
+      "game": startGameObj.toDict(),
+      "bot": bots[otherIndex].toDict()
+    };
     let gameStack: GameState[] = [startGameState];
 
     let count = 1;
@@ -136,17 +140,22 @@ export default class Batch extends GameContext {
         throw new Error("Invalid game state in game stack!");
       }
       let gameObj = this.gameFactory.getGameObj(this.batchConfig.game);
+      bots[otherIndex].fromDict(state.bot);
       gameObj.setBots(bots);
-      gameObj.fromDict(state);
+      gameObj.fromDict(state.game);
       if (gameObj.isEnded()) {
         let result = gameObj.processResult();
         this.processGameResult(result);
       } else {
         let outputStates = gameObj.doTurn();
+        let botState = bots[otherIndex].toDict();
         for (let outputState of outputStates) {
           count++;
           this.log.info(`\n********** Running game split ${count} **********\n`);
-          gameStack.push(outputState);
+          gameStack.push({
+            game: outputState,
+            bot: botState
+          });
         }
       }
     }

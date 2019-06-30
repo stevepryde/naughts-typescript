@@ -152,7 +152,7 @@ export class GameBase extends GameContext {
       inputs.length,
       this.inputCount,
       `Incorrect number of inputs returned from getInputs(): Expected ${this.inputCount}, got ${
-        inputs.length
+      inputs.length
       }`
     );
 
@@ -205,13 +205,13 @@ export class GameBase extends GameContext {
   /**
    * Set the initial game state.
    */
-  public setInitialState(): void {}
+  public setInitialState(): void { }
 
   /**
    * Apply state to this game object.
    * @param state GameState object
    */
-  protected setState(state: GameState): void {}
+  protected setState(state: GameState): void { }
 
   /**
    * Get the game state.
@@ -233,7 +233,7 @@ export class GameBase extends GameContext {
    * @param identity The current identity.
    * @param output   The move to apply.
    */
-  protected update(identity: string, output: number): void {}
+  protected update(identity: string, output: number): void { }
 
   /**
    * Return true if the game has ended, otherwise false.

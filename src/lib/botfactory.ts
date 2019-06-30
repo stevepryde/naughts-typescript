@@ -7,10 +7,12 @@ import GameFactory from "./gamefactory";
 
 import RandomBot from "../bots/randombot/randombot";
 import GenBot3 from "../bots/genbot3/genbot3";
+import OmniBot from "../bots/omnibot/omnibot";
 
 const GenericBots = {
   randombot: RandomBot,
-  genbot3: GenBot3
+  genbot3: GenBot3,
+  omnibot: OmniBot
 };
 
 import Human from "../games/naughts/bots/human/human";
@@ -25,7 +27,7 @@ const GameSpecificBots = {
 };
 
 export default class BotFactory {
-  constructor(public context: GameContext, public botConfig: BotConfig | null) {}
+  constructor(public context: GameContext, public botConfig: BotConfig | null) { }
 
   /**
    * Get the class for the specified bot.

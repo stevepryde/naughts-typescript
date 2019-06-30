@@ -84,21 +84,25 @@ export default class GenBot3 extends GamePlayer {
 
     // First create input nodes.
     for (let i = 0; i < gameInfo.inputCount; i++) {
+      let node = new NODE_INPUT();
+      node.index = i;
       this.nodes.push(new NODE_INPUT());
     }
 
     // Now generate random nodes.
     let numNodes = 100;
+    let next_index = this.nodes.length;
     for (let n = 0; n < numNodes; n++) {
       // Create random node.
       let node = this.getRandomNodeInstance();
-      node.index = n;
+      node.index = next_index;
 
       // Connect up a random sample of input nodes.
       node.inputNodes = randomSample(this.nodes, node.numInputs);
 
       // Add this node.
       this.nodes.push(node);
+      next_index++;
     }
 
     // Now add output nodes.

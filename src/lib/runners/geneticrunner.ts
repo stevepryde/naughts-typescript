@@ -87,7 +87,7 @@ export default class GeneticRunner extends GameRunnerBase {
         );
       }
 
-      let filteredPool = geneticPool.filter(bot => {
+      let filteredPool = geneticPool.filter((bot) => {
         return bot.score > scoreThreshold;
       });
       if (filteredPool.length === 0) {
@@ -117,6 +117,10 @@ export default class GeneticRunner extends GameRunnerBase {
       for (let sample of selectedSamples) {
         if (sample.score > scoreThreshold) {
           scoreThreshold = sample.score;
+          fs.writeFileSync(
+            path.join(this.path, "bestrecipe.json"),
+            JSON.stringify(sample.getState())
+          );
         }
 
         selectedScores.push(sample.score.toFixed(3));
