@@ -125,12 +125,13 @@ export default class GenBot3 extends GamePlayer {
       let instance = getNodeInstance(className);
 
       if (className !== "NODE_INPUT") {
-        let inputsRequired = instance.numInputs;
-        assert.ok(ingredientBlocks.length === inputsRequired + 1);
+        // let inputsRequired = instance.numInputs;
+        // assert.ok(ingredientBlocks.length === inputsRequired + 1);
 
         for (let inputNumber of ingredientBlocks.slice(1)) {
           instance.addInputNode(this.nodes[parseInt(inputNumber)]);
         }
+        instance.numInputs = instance.inputNodes.length;
       }
 
       if (className === "NODE_OUTPUT") {
