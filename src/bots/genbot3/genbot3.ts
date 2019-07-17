@@ -202,15 +202,16 @@ export default class GenBot3 extends GamePlayer {
       node.update();
     }
 
-    // Sort moves according to the value of the output nodes.
-    let dsort = {};
-    for (let move of availableMoves) {
-      dsort[move] = this.outputNodes[move].output;
+    // Get best move.
+    let bestMove = availableMoves[0];
+    let bestOutput = 0;
+    for (let m of availableMoves) {
+      if (this.outputNodes[m].output > bestOutput) {
+        bestMove = m;
+        bestOutput = this.outputNodes[m].output;
+      }
     }
 
-    let sortedMoves = Object.keys(dsort).sort((moveA, moveB) => {
-      return dsort[moveA] - dsort[moveB];
-    });
-    return parseInt(sortedMoves[0]);
+    return bestMove;
   }
 }
