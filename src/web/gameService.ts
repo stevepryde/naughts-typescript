@@ -47,10 +47,11 @@ export class GameService {
     if (this.bot == null) {
       throw new GameServiceError("Error creating bot");
     }
-    let data = await db.getTop(bot, 1);
-    if (data.length > 0) {
-      this.bot.fromDict(data[0]);
+    let data = await db.getTop(bot);
+    if (data) {
+      this.bot.fromDict(data);
     } else {
+      console.error(`Couldn't find bot ${bot}. Loading randombot instead`);
       this.bot.create(this.gameObj.getGameInfo());
     }
   }

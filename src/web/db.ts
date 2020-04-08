@@ -24,15 +24,12 @@ class DB {
     }
 
     await this._pool.query(
-      `CREATE TABLE IF NOT EXISTS recipe (
+      `CREATE TABLE IF NOT EXISTS recipes (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name CHAR(255),
-        score DECIMAL(10,3),
-        botdata TEXT
+        name VARCHAR(255) UNIQUE,
+        recipe TEXT
       );`
     );
-    await this._pool.query(`CREATE INDEX IF NOT EXISTS botname ON recipe (name ASC)`);
-    await this._pool.query(`CREATE INDEX IF NOT EXISTS botscore ON recipe (name ASC, score DESC)`);
     this.ready = true;
   }
 
@@ -50,34 +47,46 @@ class DB {
     return await pool.query(q, ...vars);
   }
 
-  async insertBot(name: string, data: PlayerState, score: number): Promise<string> {
-    let res = await this.query(
-      `INSERT INTO recipe(name,score,botdata) VALUES ($1,$2,$3) RETURNING id`,
-      [name, score, data]
-    );
-    return res.rows[0].id as string;
+  async insertBot(name: string, recipe: string): Promise<string> {
+    let res = await this.query(`SELECT * FROM recipes WHERE name = $1`, [name.trim()]);
+    if (res.rows.length === 0) {
+      res = await this.query(
+          `INSERT INTO recipes(name,recipe) VALUES ($1,$2) RETURNING id`,
+          [name.trim(), recipe.trim()]
+      );
+      return res.rows[0].id as string;
+    } else {
+      await this.query(`UPDATE recipes SET(recipe=$1) WHERE id = $2`, [recipe.trim(), res.rows[0].id]);
+      return res.rows[0].id as string;
+    }
   }
 
-  async loadBot(botId: string): Promise<PlayerState | null> {
-    let res = await this.query(`SELECT * FROM recipe WHERE id = $1`, [botId]);
+  async loadBot(botId: string): Promise<string | null> {
+    let res = await this.query(`SELECT * FROM recipes WHERE id = $1`, [botId.trim()]);
     if (res.rows.length === 0) {
       return null;
     }
-    return JSON.parse(res.rows[0].data);
+    return res.rows[0].recipe;
   }
 
-  async getTop(name: string, count: number): Promise<PlayerState[]> {
+  async getTop(name: string): Promise<PlayerState | null> {
     let res = await this.query(
-      `SELECT (botdata) FROM recipe WHERE name = $1 ORDER BY score DESC LIMIT $2`,
-      [name, count]
+      `SELECT * FROM recipes WHERE name = $1`,
+      [name.trim()]
     );
-    return res.rows.map(item => {
-      return JSON.parse(item.botdata);
-    });
+    if (res.rows.length === 0) {
+      return null;
+    }
+
+    let item = res.rows[0];
+    return {
+      name: item.name,
+      recipe: item.recipe
+    };
   }
 
   async clearBots(name: string): Promise<void> {
-    await this.query(`DELETE FROM recipe WHERE name = $1`, name);
+    await this.query(`DELETE FROM recipes WHERE name = $1`, name);
   }
 }
 

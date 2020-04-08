@@ -8,6 +8,7 @@ import path = require("path");
 require("dotenv");
 
 import gameRoutes from "./game";
+import botdbRoutes from "./botdb";
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.use(
 );
 
 app.use("/game", gameRoutes);
+app.use("/botdb", botdbRoutes);
 
 var server = https.listen(5009, function() {
   console.log("Server running on port:", server.address().port);
