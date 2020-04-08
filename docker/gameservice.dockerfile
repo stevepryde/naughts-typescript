@@ -4,7 +4,8 @@ WORKDIR /app
 
 # Install packages before adding source.
 # This avoids reinstalling packages when only source files changed.
-COPY ./package*.json /app/
+COPY ./package.json /app/
+COPY ./yarn.lock /app/
 RUN yarn
 RUN yarn global add typescript
 
